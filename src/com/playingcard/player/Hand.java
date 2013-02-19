@@ -7,7 +7,7 @@ import com.playingcard.deck.Card;
 
 public class Hand {
 
-	List<Card> hand;
+	private List<Card> hand;
 
 	public Hand(Card[] cards) {
 		super();
