@@ -2,29 +2,21 @@ package com.playingcard.deck;
 
 public class Card {
 
-	private String suit;
-	private String value;
+	private final Value value;
+	private final Suit suit;
 
-	public Card(String suit, String value) {
+	public Card(Value value, Suit suit) {
 		super();
-		this.suit = suit;
 		this.value = value;
-	}
-
-	public String getSuit() {
-		return suit;
-	}
-
-	public void setSuit(String suit) {
 		this.suit = suit;
 	}
 
-	public String getValue() {
+	public Value getValue() {
 		return value;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public Suit getSuit() {
+		return suit;
 	}
 
 	public String toString() {

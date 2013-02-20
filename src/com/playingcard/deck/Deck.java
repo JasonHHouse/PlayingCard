@@ -1,7 +1,14 @@
 package com.playingcard.deck;
 
+import java.util.List;
+
 public abstract class Deck {
 
+	protected List<Card> cards;
+
+	public Deck(List<Card> cards) {
+		this.cards = cards;
+	}
 	/**
 	 * Used to get the next card(s) in the deck, returns null if empty
 	 * 
@@ -33,4 +40,9 @@ public abstract class Deck {
 	 * To print the deck
 	 */
 	public abstract String toString();
+
+	/**
+	 * Resets the deck to the original filled amount
+	 */
+	public abstract void resetDeck();
 }

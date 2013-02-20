@@ -38,9 +38,9 @@ public class Hand {
 	
 	@Override
 	public String toString(){
-		String strOutput = "";
+		StringBuilder sb = new StringBuilder();
 		for(Card card : hand)
-			strOutput += card + ", ";
-		return strOutput.substring(0, strOutput.length()-2);
+			sb.append(card + ", ");
+		return sb.toString().substring(0, sb.toString().length()-2);
 	}
 }
