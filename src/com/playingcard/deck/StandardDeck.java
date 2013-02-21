@@ -32,7 +32,7 @@ public class StandardDeck extends Deck {
 	public void shuffleDeck() {
 		// Load the deck
 		for (Suit suit : Suit.values())
-			for (Value value : Value.values())
+			for (Rank value : Rank.values())
 				cards.add(new Card(value, suit));
 
 		// shuffle the cards

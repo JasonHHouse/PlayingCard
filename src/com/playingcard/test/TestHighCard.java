@@ -1,12 +1,13 @@
 package com.playingcard.test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.playingcard.deck.StandardDeck;
 import com.playingcard.game.HighCard;
 import com.playingcard.player.Player;
 
-public class Test {
+public class TestHighCard {
 
 	/**
 	 * @param args
@@ -14,6 +15,14 @@ public class Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		StandardDeck sd = new StandardDeck();
+
+	/*	for (int i = 0; i < 10; i++) {
+			Hand hand1 = new Hand(sd.getNextCard(2));
+			Hand hand2 = new Hand(sd.getNextCard(2));
+			System.out.println(hand1);
+			System.out.println(hand2);
+			System.out.println(hand1.compareTo(hand2));
+		}*/
 
 		Player player1 = new Player("Jason", 100);
 		Player player2 = new Player("Greg", 50);
@@ -34,7 +43,10 @@ public class Test {
 			hc.antee(5);
 			hc.dealCards();
 			System.out.print(hc.toString());
-			System.out.println(hc.findWinner());
+			List<Player> winners = hc.findWinner();
+			System.out.println("Winner...");
+			for (Player winner : winners)
+				System.out.println(winner);
 			hc.changeDealer();
 		}
 	}

@@ -1,18 +1,18 @@
 package com.playingcard.deck;
 
-public class Card {
+public class Card implements Comparable<Card> {
 
-	private final Value value;
+	private final Rank rank;
 	private final Suit suit;
 
-	public Card(Value value, Suit suit) {
+	public Card(Rank rank, Suit suit) {
 		super();
-		this.value = value;
+		this.rank = rank;
 		this.suit = suit;
 	}
 
-	public Value getValue() {
-		return value;
+	public Rank getRank() {
+		return rank;
 	}
 
 	public Suit getSuit() {
@@ -20,14 +20,19 @@ public class Card {
 	}
 
 	public String toString() {
-		return value + " " + suit;
+		return rank + " " + suit;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
 		Card card = (Card) obj;
-		if (card.getSuit().equals(suit) && card.getValue().equals(value))
+		if (card.getSuit().equals(suit) && card.getRank().equals(rank))
 			return true;
 		return false;
+	}
+
+	@Override
+	public int compareTo(Card card) {
+		return card.getRank().ordinal() - rank.ordinal();
 	}
 }
