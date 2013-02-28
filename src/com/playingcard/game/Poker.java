@@ -20,15 +20,17 @@ public abstract class Poker {
 	protected int gameNumber;
 	protected Deck deck;
 	protected Stack<Card> discardedDeck;
-	protected List<Player> players;
+	protected List<Player> allPlayers;
+	protected List<Player> currentPlayers;
 
 	public Poker(int dealer, Deck deck, Stack<Card> discardedDeck,
-			List<Player> players) {
+			List<Player> allPlayers) {
 		super();
 		this.dealer = dealer;
 		this.deck = deck;
 		this.discardedDeck = discardedDeck;
-		this.players = players;
+		this.allPlayers = allPlayers;
+		this.currentPlayers = allPlayers;
 	}
 
 	/**
@@ -54,28 +56,47 @@ public abstract class Poker {
 	public abstract void dealCards();
 
 	/**
+	 * All games should print out the game as it progresses
+	 */
+	public abstract String toString();
+
+	/**
 	 * Changes the dealer
 	 */
-	public abstract void changeDealer();
+	public void changeDealer() {
+		dealer++;
+		if (dealer >= currentPlayers.size())
+			dealer = 0;
+	}
 
 	/**
 	 * Gets the minimum from the table for the base pot
 	 * 
 	 * @param chips
 	 */
-	public abstract void antee(int chips);
+	public void antee(int chips) {
+		for (Player player : allPlayers)
+			player.bet(chips);
+		pot = allPlayers.size() * chips;
+	}
 
 	/**
 	 * Changes the position for action
 	 */
-	protected abstract void changePosition();
+	protected void changePosition() {
+		position++;
+		if (position >= currentPlayers.size())
+			position = 0;
+	}
 
 	/**
 	 * Sorts the hands in ascending order
 	 * 
 	 * @param hands
 	 */
-	protected abstract void sortHands();
+	protected void sortHands() {
+		quickSort(0, currentPlayers.size() - 1, currentPlayers);
+	}
 
 	/**
 	 * Sorts the Players based on the hand

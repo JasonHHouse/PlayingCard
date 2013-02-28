@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import javax.net.ssl.HandshakeCompletedEvent;
+
 import com.playingcard.deck.Card;
 import com.playingcard.deck.Deck;
 import com.playingcard.player.Action;
@@ -11,9 +13,9 @@ import com.playingcard.player.Hand;
 import com.playingcard.player.Player;
 import com.playingcard.player.State;
 
-public class Guts extends Poker {
+public class ThreeCardMolly extends Poker {
 
-	public Guts(Deck deck, List<Player> players) {
+	public ThreeCardMolly(Deck deck, List<Player> players) {
 		super(0, deck, new Stack<Card>(), players);
 		gameNumber = 0;
 		position = dealer + 1;
@@ -36,7 +38,6 @@ public class Guts extends Poker {
 				position = -1;
 			return state;
 		}
-
 	}
 
 	@Override
@@ -59,6 +60,15 @@ public class Guts extends Poker {
 				winners.add(currentPlayers.get(i));
 		}
 
+		// Check if the winner is a dealer and if they have trips
+		if (winners.size() == 1)
+			if (winners.get(0).getHands().get(0)
+					.equals(allPlayers.get(dealer).getHands().get(0)))
+				if (Integer.parseInt(Hand.getHandValue_ThreeCard(winners.get(0)
+						.getHands().get(0))) < 5000000) {
+					return null;
+				}
+
 		// Give out the pot to the players
 		for (Player winner : winners)
 			winner.collectChips(pot / winners.size());
@@ -76,7 +86,7 @@ public class Guts extends Poker {
 	@Override
 	public void dealCards() {
 		for (Player player : currentPlayers) {
-			Card[] cards = deck.getNextCard(2);
+			Card[] cards = deck.getNextCard(3);
 			Hand hand = new Hand(cards);
 			ArrayList<Hand> hands = new ArrayList<Hand>();
 			hands.add(hand);
@@ -87,7 +97,7 @@ public class Guts extends Poker {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Guts Poker\nGame Number: " + gameNumber + "\n");
+		sb.append("Three Card Molly\nGame Number: " + gameNumber + "\n");
 		sb.append("Pot: " + pot + "\n\n");
 		for (Player player : currentPlayers)
 			sb.append(player.toString() + "\n");

@@ -12,8 +12,8 @@ import com.playingcard.player.State;
 
 public class HighCard extends Poker {
 
-	public HighCard(Deck deck, List<Player> players) {
-		super(0, deck, null, players);
+	public HighCard(Deck deck, List<Player> allPlayers) {
+		super(0, deck, null, allPlayers);
 		gameNumber = 0;
 		position = dealer + 1;
 	}
@@ -24,11 +24,12 @@ public class HighCard extends Poker {
 
 		// Find the top score
 		List<Player> winners = new ArrayList<Player>();
-		for (int i = players.size() - 1; i >= 0; i--) {
-			if (Hand.getHandValue_OneCard(players.get(players.size() - 1)
-					.getHands().get(0)) == Hand.getHandValue_OneCard(players
-					.get(i).getHands().get(0)))
-				winners.add(players.get(i));
+		for (int i = currentPlayers.size() - 1; i >= 0; i--) {
+			if (Hand.getHandValue_OneCard(currentPlayers
+					.get(currentPlayers.size() - 1).getHands().get(0)) == Hand
+					.getHandValue_OneCard(currentPlayers.get(i).getHands()
+							.get(0)))
+				winners.add(currentPlayers.get(i));
 		}
 
 		// Give out the pot to the players
@@ -36,9 +37,9 @@ public class HighCard extends Poker {
 			winner.collectChips(pot / winners.size());
 
 		// Remove any broke players
-		for (Player player : players)
+		for (Player player : currentPlayers)
 			if (player.getChipCount() < 1)
-				players.remove(players);
+				currentPlayers.remove(currentPlayers);
 
 		gameNumber++;
 
@@ -47,7 +48,7 @@ public class HighCard extends Poker {
 
 	@Override
 	public void dealCards() {
-		for (Player player : players) {
+		for (Player player : currentPlayers) {
 			Card[] cards = deck.getNextCard(1);
 			Hand hand = new Hand(cards);
 			ArrayList<Hand> hands = new ArrayList<Hand>();
@@ -57,47 +58,22 @@ public class HighCard extends Poker {
 	}
 
 	@Override
-	public void changeDealer() {
-		dealer++;
-		if (dealer >= players.size())
-			dealer = 0;
-	}
-
-	@Override
-	public void antee(int chips) {
-		for (Player player : players)
-			player.bet(chips);
-		pot = players.size() * chips;
-	}
-
-	@Override
 	public State nextAction() {
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("High Card Poker\nGame Number: " + gameNumber + "\n");
 		sb.append("Pot: " + pot + "\n\n");
-		for (Player player : players)
+		for (Player player : currentPlayers)
 			sb.append(player.toString() + "\n");
 		return sb.toString();
 	}
 
 	@Override
-	protected void changePosition() {
-		position++;
-		if (position >= players.size())
-			position = 0;
-	}
-
-	@Override
 	public void updateAction(Action action) {
-	}
-
-	@Override
-	protected void sortHands() {
-		quickSort(0, players.size() - 1, players);
 	}
 
 }
